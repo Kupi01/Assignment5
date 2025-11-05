@@ -21,7 +21,7 @@ describe("Employee Controller Logical Operations", () => {
       employeeController.getEmployeesByBranch(req as Request, res as Response);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.arrayContaining([
-          expect.objectContaining({ branchId: 1 })
+          expect.objectContaining({ branchId: "1" })
         ])
       );
     });

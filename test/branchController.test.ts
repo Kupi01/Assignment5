@@ -43,9 +43,9 @@ describe("Branch Controller", () => {
 
   // Get Branch by ID
   it("should get a branch by valid ID", () => {
-    req.params = { id: "1" };
-    branchController.getBranchById(req as Request, res as Response);
-    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ id: 1 }));
+  req.params = { id: "1" };
+  branchController.getBranchById(req as Request, res as Response);
+  expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ id: "1" }));
   });
 
   it("should return 404 for invalid branch ID", () => {
