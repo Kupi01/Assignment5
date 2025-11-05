@@ -14,7 +14,8 @@ export async function getBranchById(id: string) {
 }
 
 export async function createBranch(data: Partial<Branch>) {
-  return await createDocument(COLLECTION, data);
+  const id = await createDocument(COLLECTION, data);
+  return getBranchById(id);
 }
 
 export async function updateBranch(id: string, data: Partial<Branch>) {

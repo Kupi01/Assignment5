@@ -11,9 +11,10 @@ describe("employeeService Firestore integration", () => {
       branchId: "test-branch-id",
       phone: "1234567890"
     };
-  const id = await employeeService.createEmployee(data);
-  expect(typeof id).toBe("string");
-  createdId = id;
+  const created = await employeeService.createEmployee(data);
+  expect(created).not.toBeNull();
+  expect(typeof created!.id).toBe("string");
+  createdId = created!.id;
   });
 
   it("should get employee by id", async () => {

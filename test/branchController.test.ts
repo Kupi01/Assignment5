@@ -15,73 +15,76 @@ describe("Branch Controller", () => {
   });
 
   // Create Branch
-  it("should create a branch successfully", () => {
+  it("should create a branch successfully", async () => {
     req.body = { name: "Test", address: "123", phone: "123" };
-    branchController.createBranch(req as Request, res as Response);
+    await branchController.createBranch(req as Request, res as Response);
     expect(statusMock).toHaveBeenCalledWith(201);
-    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ name: "Test" }));
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
+      success: true,
+      data: expect.objectContaining({ name: "Test" })
+    }));
   });
 
-  it("should return 400 if required fields are missing on create", () => {
+  it("should return 400 if required fields are missing on create", async () => {
     req.body = { name: "Test" };
-    branchController.createBranch(req as Request, res as Response);
+    await branchController.createBranch(req as Request, res as Response);
     expect(statusMock).toHaveBeenCalledWith(400);
-    expect(jsonMock).toHaveBeenCalledWith({ error: "Missing required fields" });
+    expect(jsonMock).toHaveBeenCalledWith({ success: false, error: "Missing required fields" });
   });
 
   // Get All Branches
-  it("should get all branches", () => {
-    branchController.getAllBranches(req as Request, res as Response);
-    expect(jsonMock).toHaveBeenCalledWith(expect.any(Array));
+  it("should get all branches", async () => {
+    await branchController.getAllBranches(req as Request, res as Response);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ success: true, data: expect.any(Array) }));
   });
 
-  it("should handle error in getAllBranches gracefully", () => {
+  it("should handle error in getAllBranches gracefully", async () => {
     // No error is thrown in current implementation, so just call and check
-    branchController.getAllBranches(req as Request, res as Response);
+    await branchController.getAllBranches(req as Request, res as Response);
     expect(jsonMock).toHaveBeenCalled();
   });
 
   // Get Branch by ID
-  it("should get a branch by valid ID", () => {
+  it("should get a branch by valid ID", async () => {
     req.params = { id: "1" };
-    branchController.getBranchById(req as Request, res as Response);
-    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ id: 1 }));
+    await branchController.getBranchById(req as Request, res as Response);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ success: true, data: expect.objectContaining({ id: "1" }) }));
   });
 
-  it("should return 404 for invalid branch ID", () => {
+  it("should return 404 for invalid branch ID", async () => {
     req.params = { id: "99999" };
-    branchController.getBranchById(req as Request, res as Response);
+    await branchController.getBranchById(req as Request, res as Response);
     expect(statusMock).toHaveBeenCalledWith(404);
-    expect(jsonMock).toHaveBeenCalledWith({ error: "Branch not found" });
+    expect(jsonMock).toHaveBeenCalledWith({ success: false, error: "Branch not found" });
   });
 
   // Update Branch
-  it("should update a branch successfully", () => {
+  it("should update a branch successfully", async () => {
     req.params = { id: "1" };
     req.body = { phone: "555-555-5555" };
-    branchController.updateBranch(req as Request, res as Response);
-    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ phone: "555-555-5555" }));
+    await branchController.updateBranch(req as Request, res as Response);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ success: true, data: expect.objectContaining({ phone: "555-555-5555" }) }));
   });
 
-  it("should return 404 for updating non-existent branch", () => {
+  it("should return 404 for updating non-existent branch", async () => {
     req.params = { id: "99999" };
     req.body = { phone: "555-555-5555" };
-    branchController.updateBranch(req as Request, res as Response);
+    await branchController.updateBranch(req as Request, res as Response);
     expect(statusMock).toHaveBeenCalledWith(404);
-    expect(jsonMock).toHaveBeenCalledWith({ error: "Branch not found" });
+    expect(jsonMock).toHaveBeenCalledWith({ success: false, error: "Branch not found" });
   });
 
   // Delete Branch
-  it("should delete a branch successfully", () => {
+  it("should delete a branch successfully", async () => {
     req.params = { id: "1" };
-    branchController.deleteBranch(req as Request, res as Response);
-    expect(jsonMock).toHaveBeenCalledWith({ message: "Branch deleted" });
+    await branchController.deleteBranch(req as Request, res as Response);
+    expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({ success: true, data: { message: "Branch deleted" } }));
   });
 
-  it("should return 404 for deleting non-existent branch", () => {
+  it("should return 404 for deleting non-existent branch", async () => {
     req.params = { id: "99999" };
-    branchController.deleteBranch(req as Request, res as Response);
+    await branchController.deleteBranch(req as Request, res as Response);
     expect(statusMock).toHaveBeenCalledWith(404);
-    expect(jsonMock).toHaveBeenCalledWith({ error: "Branch not found" });
+    expect(jsonMock).toHaveBeenCalledWith({ success: false, error: "Branch not found" });
   });
 });
