@@ -16,9 +16,9 @@ describe("Employee Controller Logical Operations", () => {
   });
 
   describe("getEmployeesByBranch", () => {
-    it("should return employees for a valid branch ID", () => {
+    it("should return employees for a valid branch ID", async () => {
       req.params = { branchId: "1" };
-      employeeController.getEmployeesByBranch(req as Request, res as Response);
+      await employeeController.getEmployeesByBranch(req as Request, res as Response);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({ branchId: "1" })
@@ -26,18 +26,18 @@ describe("Employee Controller Logical Operations", () => {
       );
     });
 
-    it("should return 400 for invalid branch ID", () => {
+    it("should return 400 for invalid branch ID", async () => {
       req.params = { branchId: "abc" };
-      employeeController.getEmployeesByBranch(req as Request, res as Response);
+      await employeeController.getEmployeesByBranch(req as Request, res as Response);
       expect(statusMock).toHaveBeenCalledWith(400);
       expect(jsonMock).toHaveBeenCalledWith({ error: "Invalid branch ID" });
     });
   });
 
   describe("getEmployeesByDepartment", () => {
-    it("should return employees for a valid department", () => {
+    it("should return employees for a valid department", async () => {
       req.params = { department: "IT" };
-      employeeController.getEmployeesByDepartment(req as Request, res as Response);
+      await employeeController.getEmployeesByDepartment(req as Request, res as Response);
       expect(jsonMock).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({ department: "IT" })
@@ -45,9 +45,9 @@ describe("Employee Controller Logical Operations", () => {
       );
     });
 
-    it("should return 400 for missing department parameter", () => {
+    it("should return 400 for missing department parameter", async () => {
       req.params = {};
-      employeeController.getEmployeesByDepartment(req as Request, res as Response);
+      await employeeController.getEmployeesByDepartment(req as Request, res as Response);
       expect(statusMock).toHaveBeenCalledWith(400);
       expect(jsonMock).toHaveBeenCalledWith({ error: "Department parameter is required" });
     });
