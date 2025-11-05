@@ -3,6 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
+import setupSwagger from "../config/swagger";
 import employeeRoutes from "./api/v1/routes/employeeRoutes";
 import branchRoutes from "./api/v1/routes/branchRoutes";
 
@@ -81,5 +82,8 @@ app.use("/api/v1/employees", employeeRoutes);
 
 // Mount Branch API routes
 app.use("/api/v1/branches", branchRoutes);
+
+// Setup Swagger documentation
+setupSwagger(app);
 
 export default app;
