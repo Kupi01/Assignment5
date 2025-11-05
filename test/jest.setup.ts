@@ -42,14 +42,31 @@ const dbMock = {
 
 jest.mock("../src/config/firebaseConfig", () => ({ db: dbMock }));
 
-// Clear in-memory collections between tests to ensure isolation
-afterEach(() => {
-  collections.clear();
-  jest.clearAllMocks();
-});
+// Some compiled files may import from '../config/firebaseConfig' (without src/)
+// Mock that path as well to ensure coverage for both import styles
+jest.mock("../config/firebaseConfig", () => ({ db: dbMock }));
 
-// Reset all mocks after each test
-afterEach(() => {
+// Seed the in-memory collections with sample data used by tests
+// Import sample data from src/data and populate the mock collections
+const { branches } = require("../src/data/branch");
+const { employees } = require("../src/data/employee");
+
+const seedCollections = () => {
+  // branches
+  const branchColl = new Map();
+  branches.forEach((b: any) => branchColl.set(b.id, { ...b }));
+  collections.set("branches", branchColl);
+
+  // employees
+  const empColl = new Map();
+  employees.forEach((e: any) => empColl.set(e.id, { ...e }));
+  collections.set("employees", empColl);
+};
+
+// Seed once before each test to ensure tests have predictable data
+beforeEach(() => {
+  collections.clear();
+  seedCollections();
   jest.clearAllMocks();
 });
 

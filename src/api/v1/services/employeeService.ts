@@ -14,7 +14,8 @@ export async function getEmployeeById(id: string) {
 }
 
 export async function createEmployee(data: Partial<Employee>) {
-  return await createDocument(COLLECTION, data);
+  const id = await createDocument(COLLECTION, data);
+  return getEmployeeById(id);
 }
 
 export async function updateEmployee(id: string, data: Partial<Employee>) {

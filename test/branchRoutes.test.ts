@@ -6,8 +6,8 @@ describe("Branch Routes", () => {
 
   it("should create a new branch", async () => {
     const res = await request(app)
-      .post("/api/v1/branches")
-      .send({ name: "Test Branch", address: "123 Test St", phone: "123-456-7890" });
+    .post("/api/v1/branches")
+    .send({ name: "Test Branch", address: "123 Test St", phone: "1234567890" });
     expect(res.statusCode).toBe(201);
     expect(res.body.success).toBe(true);
     expect(res.body.data).toHaveProperty("id");

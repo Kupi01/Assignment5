@@ -10,9 +10,10 @@ describe("branchService Firestore integration", () => {
       address: "123 Main St",
       phone: "555-1234"
     };
-  const id = await branchService.createBranch(data);
-  expect(typeof id).toBe("string");
-  createdId = id;
+  const created = await branchService.createBranch(data);
+  expect(created).not.toBeNull();
+  expect(typeof created!.id).toBe("string");
+  createdId = created!.id;
   });
 
   it("should get branch by id", async () => {
