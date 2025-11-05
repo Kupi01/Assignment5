@@ -66,6 +66,10 @@ import Joi from 'joi';
  *           example: "2024-01-20T14:45:00Z"
  */
 
+/**
+ * Joi validation schema for employee data
+ * Validates employee input according to business rules
+ */
 export const employeeSchema = Joi.object({
   name: Joi.string().min(2).max(50).required(),
   position: Joi.string().min(2).max(50).required(),
