@@ -19,7 +19,9 @@ const PORT = process.env.PORT || 3000;
 /**
  * Start the Express server
  * Binds to specified port and logs startup message
+ * Includes environment information for development
  */
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
